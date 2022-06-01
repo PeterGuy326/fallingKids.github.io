@@ -10,16 +10,62 @@
         </author>
         <description></description>
         <language>zh-CN</language>
-        <pubDate>Wed, 01 Jun 2022 10:50:55 +0800</pubDate>
-        <lastBuildDate>Wed, 01 Jun 2022 10:50:55 +0800</lastBuildDate>
+        <pubDate>Wed, 01 Jun 2022 22:56:49 +0800</pubDate>
+        <lastBuildDate>Wed, 01 Jun 2022 22:56:49 +0800</lastBuildDate>
         <category term="node.js" />
         <category term="golang" />
         <category term="mysql" />
         <category term="linux" />
         <item>
-            <guid isPermalink="true">https://fallingkids.github.io/%E4%B8%80%E5%91%A8%E6%B5%85%E8%B0%88%EF%BC%9AMysql%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</guid>
+            <guid isPermalink="true">https://fallingkids.github.io/mysql-note-02/</guid>
+            <title>一周浅谈：Mysql - 字符集和比较规则</title>
+            <link>https://fallingkids.github.io/mysql-note-02/</link>
+            <category term="Mysql" scheme="https://fallingkids.github.io/tags/Mysql/" />
+            <pubDate>Wed, 01 Jun 2022 22:56:49 +0800</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;前言&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#前言&#34;&gt;#&lt;/a&gt; 前言&lt;/h2&gt;
+&lt;p&gt;计算机中实际存储的是二进制数据，是没有办法直接存储字符串的，因此为了存储字符是建立在字符与二进制数据的映射关系之上。建立这个关系，我们首先需要解决两个问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;要把哪些字符映射成二进制数据？&lt;/li&gt;
+&lt;li&gt;怎么映射？把字符映射成二进制数据叫做编码，将二进制数据映射到字符叫做解码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;&#39;a&#39; -&amp;gt; 00000001 (十六进制0x01)
+&#39;b&#39; -&amp;gt; 00000010 (十六进制0x02)
+&#39;A&#39; -&amp;gt; 00000011 (十六进制0x03)
+&#39;B&#39; -&amp;gt; 00000100 (十六进制0x04)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;现在有了我们自己的字符集，我们就可以用二进制表示一些字符串了，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&#39;bA&#39; -&amp;gt; 0000001000000011 （十六进制 0x0203）&lt;/li&gt;
+&lt;li&gt;&#39;baB&#39; -&amp;gt; 000000100000000100000100 （十六进制 0x020104）&lt;/li&gt;
+&lt;li&gt;&#39;cd&#39; -&amp;gt; 无法表示，因为 huyizhou 字符集里不包含 &#39;c&#39; 和 &#39;d&#39;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;字符比较规则&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#字符比较规则&#34;&gt;#&lt;/a&gt; 字符比较规则&lt;/h2&gt;
+&lt;p&gt;其实字符的比较，最容易想到的就是比较两个字符对应的二进制编码大小。二进制比较规则景观很简单，但是有时候并不符合现实的需求。例如，在很多场景下，英文字符都是不区分大小写的，换句话说 &#39;a&#39; 和 &#39;A&#39; 是相等的，这个时候就不能简单的使用二进制比较，这个时候就需要这两个规则：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将两个大小写不同的字符全部都转为大写或者小写&lt;/li&gt;
+&lt;li&gt;再比较这两个字符对应的二进制数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2 id=&#34;常见的字符集&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#常见的字符集&#34;&gt;#&lt;/a&gt; 常见的字符集&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ASCII 字符集：共收录 128 个字符，包括空格、标点符号、数字、大小写字母和一些不可见的字符。由于 ASCII 字符集一共也才 128 个字符，所以可以使用一个字节来进行编码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;&#39;L&#39; -&amp;gt; 01001100 （十六进制0x4C，十进制76）
+&#39;M&#39; -&amp;gt; 01001101 （十六进制0x4D，十进制77）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO 8859-1 字符集：共收录 256 个字符，在 ASCII 字符集的基础上又扩充了 128 个西欧常用字符，因此 ISO 8859-1 字符集也可以使用一个字节来进行编码&lt;/li&gt;
+&lt;li&gt;GBK&lt;/li&gt;
+&lt;li&gt;UTF-8&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;其他&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#其他&#34;&gt;#&lt;/a&gt; 其他&lt;/h2&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://fallingkids.github.io/mysql-note-01/</guid>
             <title>一周浅谈：Mysql整体架构设计</title>
-            <link>https://fallingkids.github.io/%E4%B8%80%E5%91%A8%E6%B5%85%E8%B0%88%EF%BC%9AMysql%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</link>
+            <link>https://fallingkids.github.io/mysql-note-01/</link>
             <category term="Mysql" scheme="https://fallingkids.github.io/tags/Mysql/" />
             <pubDate>Wed, 01 Jun 2022 10:50:55 +0800</pubDate>
             <description><![CDATA[ &lt;h2 id=&#34;前言&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#前言&#34;&gt;#&lt;/a&gt; 前言&lt;/h2&gt;
